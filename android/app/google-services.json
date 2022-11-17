@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "813336903834",
+    "project_id": "cike-project",
+    "storage_bucket": "cike-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:813336903834:android:bb8c4b1e85601b2c5e9f23",
+        "android_client_info": {
+          "package_name": "com.example.cike_project_utfpr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "813336903834-rfqa29vn2s8qc3mtp5iru347mtgqi9n5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwEKXO_R4-l9EiDlGoailio0rdEEtHRJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "813336903834-rfqa29vn2s8qc3mtp5iru347mtgqi9n5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "813336903834-tmrrdqr0l76273lfff6fbtu79u5l0v2i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cikeProject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
