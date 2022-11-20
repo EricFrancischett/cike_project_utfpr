@@ -1,4 +1,5 @@
 import 'package:cike_project_utfpr/features/home/model/input_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -10,57 +11,29 @@ class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
   @observable
-  ObservableList<InputModel> inputList = <InputModel>[
-    InputModel(
-        type: 'Ciclovia',
-        adress: 'Rua Deputado Heitor Alencar Furtado, 5000',
-        description:
-            'Ciclovia muito boa de andar, iluminada e sem risco de colisões com os carros.'),
-    InputModel(
-        type: 'Local',
-        adress: 'Rua Deputado Heitor Alencar Furtado, 5000',
-        description:
-            'Ciclovia muito boa de andar, iluminada e sem risco de colisões com os carros.'),
-    InputModel(
-        type: 'Estacionamento',
-        adress: 'Rua Deputado Heitor Alencar Furtado, 5000',
-        description:
-            'Ciclovia muito boa de andar, iluminada e sem risco de colisões com os carros.'),
-    InputModel(
-        type: 'Ciclovia',
-        adress: 'Rua Deputado Heitor Alencar Furtado, 5000',
-        description:
-            'Ciclovia muito boa de andar, iluminada e sem risco de colisões com os carros.'),
-    InputModel(
-        type: 'Ciclovia',
-        adress: 'Rua Deputado Heitor Alencar Furtado, 5000',
-        description:
-            'Ciclovia muito boa de andar, iluminada e sem risco de colisões com os carros.'),
-    InputModel(
-        type: 'Ciclovia',
-        adress: 'Rua Deputado Heitor Alencar Furtado, 5000',
-        description:
-            'Ciclovia muito boa de andar, iluminada e sem risco de colisões com os carros.'),
-    InputModel(
-        type: 'Ciclovia',
-        adress: 'Rua Deputado Heitor Alencar Furtado, 5000',
-        description:
-            'Ciclovia muito boa de andar, iluminada e sem risco de colisões com os carros.'),
-    InputModel(
-        type: 'Ciclovia',
-        adress: 'Rua Deputado Heitor Alencar Furtado, 5000',
-        description:
-            'Ciclovia muito boa de andar, iluminada e sem risco de colisões com os carros.'),
-    InputModel(
-        type: 'Ciclovia',
-        adress: 'Rua Deputado Heitor Alencar Furtado, 5000',
-        description:
-            'Ciclovia muito boa de andar, iluminada e sem risco de colisões com os carros.'),
-    InputModel(
-        type: 'Ciclovia',
-        adress: 'Rua Deputado Heitor Alencar Furtado, 5000',
-        description:
-            'Ciclovia muito boa de andar, iluminada e sem risco de colisões com os carros.'),
+  String addressFromStreetGiven = '';
+
+  @observable
+  String newInputDescription = '';
+
+  @observable
+  String newInputAddress = '';
+
+  @observable
+  bool isLoading = false;
+
+  @observable
+  ObservableList<InputModel> inputList = <InputModel>[].asObservable();
+
+  @observable
+  String modalDropdownSelectedValue = 'Ciclovia';
+
+  @observable
+  ObservableList<String> dropdownItensList = <String>[
+    'Ciclovia',
+    'Local',
+    'Estacionamento',
+    'Prática em Grupo',
   ].asObservable();
 
   @observable
@@ -96,48 +69,34 @@ abstract class _HomeControllerBase with Store {
   ObservableList<Placemark> placemarks = <Placemark>[].asObservable();
 
   @observable
-  String? currentAdress = 'Av. Sete de Setembro, 3165';
+  String? currentStreet = '';
+
+  @observable
+  String? currentSubLocality = '';
+
+  @observable
+  String? currentSubAdministrativeArea = '';
+
+  @observable
+  String? currentPostalCode = '';
 
   @observable
   Position? currentPosition = Position(
-      longitude: 0,
-      latitude: 0,
-      timestamp: DateTime.now(),
-      accuracy: 0,
-      altitude: 0,
-      heading: 0,
-      speed: 0,
-      speedAccuracy: 0);
-
-  @observable
-  Position position = Position(
-      longitude: 0,
-      latitude: 0,
-      timestamp: DateTime.now(),
-      accuracy: 0,
-      altitude: 0,
-      heading: 0,
-      speed: 0,
-      speedAccuracy: 0);
+    longitude: 0,
+    latitude: 0,
+    timestamp: DateTime.now(),
+    accuracy: 0,
+    altitude: 0,
+    heading: 0,
+    speed: 0,
+    speedAccuracy: 0,
+  );
 
   @observable
   bool serviceEnabled = false;
 
   @observable
   LocationPermission permission = LocationPermission.unableToDetermine;
-
-  @action
-  Future<void> getPlacemark() async {
-    List<Placemark> placemarksList =
-        await placemarkFromCoordinates(52.2165157, 6.9437819);
-    placemarks = placemarksList.asObservable();
-  }
-
-  @action
-  Future<void> getPosition() async {
-    position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-  }
 
   @action
   Future<bool> handleLocationPermission(BuildContext context) async {
@@ -171,18 +130,15 @@ abstract class _HomeControllerBase with Store {
 
   @action
   Future<void> getCurrentPosition(BuildContext context) async {
+    isLoading = true;
     final hasPermission = await handleLocationPermission(context);
+    debugPrint(hasPermission.toString());
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
       currentPosition = position;
-    }).catchError((e) {
-      debugPrint(e);
-    });
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) {
-      currentPosition = position;
       getAddressFromLatLng(currentPosition!);
+      isLoading = false;
     }).catchError((e) {
       debugPrint(e);
     });
@@ -194,10 +150,56 @@ abstract class _HomeControllerBase with Store {
             currentPosition!.latitude, currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
-      currentAdress =
-          '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      currentStreet = place.street;
+      currentSubLocality = place.subLocality;
+      currentSubAdministrativeArea = place.subAdministrativeArea;
+      currentPostalCode = place.postalCode;
     }).catchError((e) {
       debugPrint(e);
     });
+  }
+
+  @action
+  Future getInputs() async {
+    final inputs = FirebaseFirestore.instance.collection('inputs');
+    final inputListQuerySnapshot = await inputs.get();
+    final inputListFromFB = inputListQuerySnapshot.docs
+        .map((e) => InputModel.fromMap(e.data()))
+        .toList();
+    inputList = inputListFromFB.asObservable();
+  }
+
+  @action
+  Future addInput() async {
+    final locations = await locationFromAddress(newInputAddress);
+    final firstLocation = locations.first;
+    final collectionReference = FirebaseFirestore.instance.collection('inputs');
+    await collectionReference.doc().set(
+      {
+        "type": modalDropdownSelectedValue,
+        "address": newInputAddress,
+        "description": newInputDescription,
+        "id": '',
+        "lat": firstLocation.latitude,
+        "lgn": firstLocation.longitude,
+      },
+    );
+  }
+
+  Future<void> addressListFromStreetGiven(String street) async {
+    try {
+      final locationList =
+          await locationFromAddress('$street, Curitiba, Paraná, Brazil');
+      for (var element in locationList) {
+          final placemarkList = await placemarkFromCoordinates(
+              element.latitude, element.longitude);
+          final List<String> streetList = placemarkList.map((e) {
+            return e.street!;
+          }).toList();
+          addressFromStreetGiven = streetList.first;
+        }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

@@ -9,6 +9,136 @@ part of 'home_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$HomeController on _HomeControllerBase, Store {
+  late final _$addressFromStreetGivenAtom = Atom(
+      name: '_HomeControllerBase.addressFromStreetGiven', context: context);
+
+  @override
+  String get addressFromStreetGiven {
+    _$addressFromStreetGivenAtom.reportRead();
+    return super.addressFromStreetGiven;
+  }
+
+  @override
+  set addressFromStreetGiven(String value) {
+    _$addressFromStreetGivenAtom
+        .reportWrite(value, super.addressFromStreetGiven, () {
+      super.addressFromStreetGiven = value;
+    });
+  }
+
+  late final _$newInputDescriptionAtom =
+      Atom(name: '_HomeControllerBase.newInputDescription', context: context);
+
+  @override
+  String get newInputDescription {
+    _$newInputDescriptionAtom.reportRead();
+    return super.newInputDescription;
+  }
+
+  @override
+  set newInputDescription(String value) {
+    _$newInputDescriptionAtom.reportWrite(value, super.newInputDescription, () {
+      super.newInputDescription = value;
+    });
+  }
+
+  late final _$newInputAddressAtom =
+      Atom(name: '_HomeControllerBase.newInputAddress', context: context);
+
+  @override
+  String get newInputAddress {
+    _$newInputAddressAtom.reportRead();
+    return super.newInputAddress;
+  }
+
+  @override
+  set newInputAddress(String value) {
+    _$newInputAddressAtom.reportWrite(value, super.newInputAddress, () {
+      super.newInputAddress = value;
+    });
+  }
+
+  late final _$isLoadingAtom =
+      Atom(name: '_HomeControllerBase.isLoading', context: context);
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
+  late final _$inputListAtom =
+      Atom(name: '_HomeControllerBase.inputList', context: context);
+
+  @override
+  ObservableList<InputModel> get inputList {
+    _$inputListAtom.reportRead();
+    return super.inputList;
+  }
+
+  @override
+  set inputList(ObservableList<InputModel> value) {
+    _$inputListAtom.reportWrite(value, super.inputList, () {
+      super.inputList = value;
+    });
+  }
+
+  late final _$modalDropdownSelectedValueAtom = Atom(
+      name: '_HomeControllerBase.modalDropdownSelectedValue', context: context);
+
+  @override
+  String get modalDropdownSelectedValue {
+    _$modalDropdownSelectedValueAtom.reportRead();
+    return super.modalDropdownSelectedValue;
+  }
+
+  @override
+  set modalDropdownSelectedValue(String value) {
+    _$modalDropdownSelectedValueAtom
+        .reportWrite(value, super.modalDropdownSelectedValue, () {
+      super.modalDropdownSelectedValue = value;
+    });
+  }
+
+  late final _$dropdownItensListAtom =
+      Atom(name: '_HomeControllerBase.dropdownItensList', context: context);
+
+  @override
+  ObservableList<String> get dropdownItensList {
+    _$dropdownItensListAtom.reportRead();
+    return super.dropdownItensList;
+  }
+
+  @override
+  set dropdownItensList(ObservableList<String> value) {
+    _$dropdownItensListAtom.reportWrite(value, super.dropdownItensList, () {
+      super.dropdownItensList = value;
+    });
+  }
+
+  late final _$filterListAtom =
+      Atom(name: '_HomeControllerBase.filterList', context: context);
+
+  @override
+  ObservableList<String> get filterList {
+    _$filterListAtom.reportRead();
+    return super.filterList;
+  }
+
+  @override
+  set filterList(ObservableList<String> value) {
+    _$filterListAtom.reportWrite(value, super.filterList, () {
+      super.filterList = value;
+    });
+  }
+
   late final _$pageViewIndexAtom =
       Atom(name: '_HomeControllerBase.pageViewIndex', context: context);
 
@@ -22,6 +152,23 @@ mixin _$HomeController on _HomeControllerBase, Store {
   set pageViewIndex(int value) {
     _$pageViewIndexAtom.reportWrite(value, super.pageViewIndex, () {
       super.pageViewIndex = value;
+    });
+  }
+
+  late final _$bottomNavigationBarIndexAtom = Atom(
+      name: '_HomeControllerBase.bottomNavigationBarIndex', context: context);
+
+  @override
+  int get bottomNavigationBarIndex {
+    _$bottomNavigationBarIndexAtom.reportRead();
+    return super.bottomNavigationBarIndex;
+  }
+
+  @override
+  set bottomNavigationBarIndex(int value) {
+    _$bottomNavigationBarIndexAtom
+        .reportWrite(value, super.bottomNavigationBarIndex, () {
+      super.bottomNavigationBarIndex = value;
     });
   }
 
@@ -41,19 +188,69 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
-  late final _$currentAdressAtom =
-      Atom(name: '_HomeControllerBase.currentAdress', context: context);
+  late final _$currentStreetAtom =
+      Atom(name: '_HomeControllerBase.currentStreet', context: context);
 
   @override
-  String? get currentAdress {
-    _$currentAdressAtom.reportRead();
-    return super.currentAdress;
+  String? get currentStreet {
+    _$currentStreetAtom.reportRead();
+    return super.currentStreet;
   }
 
   @override
-  set currentAdress(String? value) {
-    _$currentAdressAtom.reportWrite(value, super.currentAdress, () {
-      super.currentAdress = value;
+  set currentStreet(String? value) {
+    _$currentStreetAtom.reportWrite(value, super.currentStreet, () {
+      super.currentStreet = value;
+    });
+  }
+
+  late final _$currentSubLocalityAtom =
+      Atom(name: '_HomeControllerBase.currentSubLocality', context: context);
+
+  @override
+  String? get currentSubLocality {
+    _$currentSubLocalityAtom.reportRead();
+    return super.currentSubLocality;
+  }
+
+  @override
+  set currentSubLocality(String? value) {
+    _$currentSubLocalityAtom.reportWrite(value, super.currentSubLocality, () {
+      super.currentSubLocality = value;
+    });
+  }
+
+  late final _$currentSubAdministrativeAreaAtom = Atom(
+      name: '_HomeControllerBase.currentSubAdministrativeArea',
+      context: context);
+
+  @override
+  String? get currentSubAdministrativeArea {
+    _$currentSubAdministrativeAreaAtom.reportRead();
+    return super.currentSubAdministrativeArea;
+  }
+
+  @override
+  set currentSubAdministrativeArea(String? value) {
+    _$currentSubAdministrativeAreaAtom
+        .reportWrite(value, super.currentSubAdministrativeArea, () {
+      super.currentSubAdministrativeArea = value;
+    });
+  }
+
+  late final _$currentPostalCodeAtom =
+      Atom(name: '_HomeControllerBase.currentPostalCode', context: context);
+
+  @override
+  String? get currentPostalCode {
+    _$currentPostalCodeAtom.reportRead();
+    return super.currentPostalCode;
+  }
+
+  @override
+  set currentPostalCode(String? value) {
+    _$currentPostalCodeAtom.reportWrite(value, super.currentPostalCode, () {
+      super.currentPostalCode = value;
     });
   }
 
@@ -70,22 +267,6 @@ mixin _$HomeController on _HomeControllerBase, Store {
   set currentPosition(Position? value) {
     _$currentPositionAtom.reportWrite(value, super.currentPosition, () {
       super.currentPosition = value;
-    });
-  }
-
-  late final _$positionAtom =
-      Atom(name: '_HomeControllerBase.position', context: context);
-
-  @override
-  Position get position {
-    _$positionAtom.reportRead();
-    return super.position;
-  }
-
-  @override
-  set position(Position value) {
-    _$positionAtom.reportWrite(value, super.position, () {
-      super.position = value;
     });
   }
 
@@ -121,22 +302,6 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
-  late final _$getPlacemarkAsyncAction =
-      AsyncAction('_HomeControllerBase.getPlacemark', context: context);
-
-  @override
-  Future<void> getPlacemark() {
-    return _$getPlacemarkAsyncAction.run(() => super.getPlacemark());
-  }
-
-  late final _$getPositionAsyncAction =
-      AsyncAction('_HomeControllerBase.getPosition', context: context);
-
-  @override
-  Future<void> getPosition() {
-    return _$getPositionAsyncAction.run(() => super.getPosition());
-  }
-
   late final _$handleLocationPermissionAsyncAction = AsyncAction(
       '_HomeControllerBase.handleLocationPermission',
       context: context);
@@ -165,8 +330,35 @@ mixin _$HomeController on _HomeControllerBase, Store {
         .run(() => super.getAddressFromLatLng(position));
   }
 
+  late final _$getInputsAsyncAction =
+      AsyncAction('_HomeControllerBase.getInputs', context: context);
+
+  @override
+  Future<dynamic> getInputs() {
+    return _$getInputsAsyncAction.run(() => super.getInputs());
+  }
+
+  late final _$addInputAsyncAction =
+      AsyncAction('_HomeControllerBase.addInput', context: context);
+
+  @override
+  Future<dynamic> addInput() {
+    return _$addInputAsyncAction.run(() => super.addInput());
+  }
+
   late final _$_HomeControllerBaseActionController =
       ActionController(name: '_HomeControllerBase', context: context);
+
+  @override
+  void changeBottomNavigationBarIndex(int newIndex) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.changeBottomNavigationBarIndex');
+    try {
+      return super.changeBottomNavigationBarIndex(newIndex);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void changePageViewIndex() {
@@ -182,11 +374,22 @@ mixin _$HomeController on _HomeControllerBase, Store {
   @override
   String toString() {
     return '''
+addressFromStreetGiven: ${addressFromStreetGiven},
+newInputDescription: ${newInputDescription},
+newInputAddress: ${newInputAddress},
+isLoading: ${isLoading},
+inputList: ${inputList},
+modalDropdownSelectedValue: ${modalDropdownSelectedValue},
+dropdownItensList: ${dropdownItensList},
+filterList: ${filterList},
 pageViewIndex: ${pageViewIndex},
+bottomNavigationBarIndex: ${bottomNavigationBarIndex},
 placemarks: ${placemarks},
-currentAdress: ${currentAdress},
+currentStreet: ${currentStreet},
+currentSubLocality: ${currentSubLocality},
+currentSubAdministrativeArea: ${currentSubAdministrativeArea},
+currentPostalCode: ${currentPostalCode},
 currentPosition: ${currentPosition},
-position: ${position},
 serviceEnabled: ${serviceEnabled},
 permission: ${permission}
     ''';

@@ -12,4 +12,5 @@ class IconConstants {
   static const String locationBlue = 'assets/icons/location_blue_icon.svg';
   static const String locationRed = 'assets/icons/location_red_icon.svg';
   static const String locationMapIcon = 'assets/icons/location_map_icon.svg';
+  static const String searchIcon = 'assets/icons/search_icon.svg';
 }
