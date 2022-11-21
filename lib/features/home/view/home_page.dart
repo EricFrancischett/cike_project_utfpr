@@ -5,6 +5,7 @@ import 'package:cike_project_utfpr/features/home/view/profile_page.dart';
 import 'package:cike_project_utfpr/features/home/widgets/custom_bottom_navigation_bar.dart';
 import 'package:cike_project_utfpr/general/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 // ignore: must_be_immutable
@@ -39,9 +40,11 @@ class _HomePageState extends State<HomePage> {
       const ProfilePage(),
     ];
 
-    return Scaffold(
-        bottomNavigationBar: CustomBottomNavigationBar(),
-        backgroundColor: AppColors.dark,
-        body: pages[controller.bottomNavigationBarIndex]);
+    return Observer(builder: (_) {
+      return Scaffold(
+          bottomNavigationBar: CustomBottomNavigationBar(),
+          backgroundColor: AppColors.dark,
+          body: pages[controller.bottomNavigationBarIndex]);
+    });
   }
 }
