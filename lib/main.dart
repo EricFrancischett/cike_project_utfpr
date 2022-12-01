@@ -1,5 +1,4 @@
 import 'package:cike_project_utfpr/app_module.dart';
-import 'package:cike_project_utfpr/features/home/view/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_modular/flutter_modular.dart';

@@ -1,4 +1,3 @@
-import 'package:cike_project_utfpr/features/home/controller/home_controller.dart';
 import 'package:cike_project_utfpr/general/app_colors.dart';
 import 'package:cike_project_utfpr/general/icon_constans.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:latlong2/latlong.dart';
 
 class MapPage extends StatelessWidget {
-  MapPage({super.key});
-
-  final _controller = HomeController();
+  const MapPage({super.key});
 
   @override
   Widget build(BuildContext context) {

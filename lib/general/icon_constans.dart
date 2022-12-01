@@ -13,4 +13,8 @@ class IconConstants {
   static const String locationRed = 'assets/icons/location_red_icon.svg';
   static const String locationMapIcon = 'assets/icons/location_map_icon.svg';
   static const String searchIcon = 'assets/icons/search_icon.svg';
+  static const String loginLogo = 'assets/icons/login_logo.svg';
+  static const String loginSubtitle = 'assets/icons/login_subtitle.svg';
+  static const String googleLogo = 'assets/icons/google_logo.svg';
+  static const String loginBackground = 'assets/icons/login_background.svg';
 }

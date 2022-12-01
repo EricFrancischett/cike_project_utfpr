@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final pages = [
       CikePage(),
-      MapPage(),
+      const MapPage(),
       const ProfilePage(),
     ];
 
