@@ -172,6 +172,22 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  late final _$mapPageViewIndexAtom =
+      Atom(name: '_HomeControllerBase.mapPageViewIndex', context: context);
+
+  @override
+  int get mapPageViewIndex {
+    _$mapPageViewIndexAtom.reportRead();
+    return super.mapPageViewIndex;
+  }
+
+  @override
+  set mapPageViewIndex(int value) {
+    _$mapPageViewIndexAtom.reportWrite(value, super.mapPageViewIndex, () {
+      super.mapPageViewIndex = value;
+    });
+  }
+
   late final _$pageViewIndexAtom =
       Atom(name: '_HomeControllerBase.pageViewIndex', context: context);
 
@@ -429,6 +445,7 @@ modalDropdownSelectedValue: ${modalDropdownSelectedValue},
 dropdownItensList: ${dropdownItensList},
 filterApplied: ${filterApplied},
 filterList: ${filterList},
+mapPageViewIndex: ${mapPageViewIndex},
 pageViewIndex: ${pageViewIndex},
 bottomNavigationBarIndex: ${bottomNavigationBarIndex},
 placemarks: ${placemarks},

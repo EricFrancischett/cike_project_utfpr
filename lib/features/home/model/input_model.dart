@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class InputModel extends Equatable{
+  Timestamp timeAdded;
   String type;
   String address;
   String description;
@@ -17,6 +20,7 @@ class InputModel extends Equatable{
     required this.lat,
     required this.lgn,
     required this.id,
+    required this.timeAdded,
   });
 
   factory InputModel.fromMap(Map<String, dynamic> map) {
@@ -28,22 +32,23 @@ class InputModel extends Equatable{
       lgn: map['lgn'],
       description: map['description'],
       id: map['id'],
+      timeAdded: map['timeAdded'],
     );
   }
 
-  Map<String, dynamic> toMap(InputModel user) {
+  Map<String, dynamic> toMap(InputModel input) {
     return {
-      'category': user.category,
-      'type': user.type,
-      'address': user.address,
-      'lat': user.lat,
-      'lgn': user.lgn,
-      'description': user.description,
-      'id': user.id,
+      'category': input.category,
+      'type': input.type,
+      'address': input.address,
+      'lat': input.lat,
+      'lgn': input.lgn,
+      'description': input.description,
+      'id': input.id,
+      'timeAdded': input.timeAdded,
     };
   }
   
   @override
   List<Object?> get props => [id];
-
 }

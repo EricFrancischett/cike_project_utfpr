@@ -160,7 +160,12 @@ class CikePage extends StatelessWidget {
                                     builder: (BuildContext context) {
                                       return HomeModal();
                                     },
-                                  ).then((value) {
+                                  ).then((value) async {
+                                    await Future.delayed(
+                                      const Duration(
+                                        milliseconds: 750,
+                                      ),
+                                    );
                                     controller.filterInputShowed();
                                   });
                                 }),
@@ -242,7 +247,7 @@ class CikePage extends StatelessWidget {
                                                     .contains(controller
                                                         .filterList[index])
                                                 ? AppColors.white
-                                                    .withOpacity(0.2)
+                                                    .withOpacity(0.1)
                                                 : Colors.transparent,
                                             borderRadius:
                                                 BorderRadius.circular(8),

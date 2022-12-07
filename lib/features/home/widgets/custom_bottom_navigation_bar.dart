@@ -33,8 +33,17 @@ class CustomBottomNavigationBar extends StatelessWidget
             backgroundColor: AppColors.dark,
             selectedFontSize: 12,
             unselectedFontSize: 12,
-            selectedItemColor:
-                controller.pageViewIndex == 0 ? AppColors.blue : AppColors.red,
+            selectedItemColor: controller.bottomNavigationBarIndex == 1
+                ? controller.mapPageViewIndex == 0
+                    ? AppColors.blue
+                    : controller.mapPageViewIndex == 1
+                        ? AppColors.red
+                        : AppColors.cream
+                : controller.pageViewIndex == 0
+                    ? AppColors.blue
+                    : controller.bottomNavigationBarIndex == 2
+                        ? AppColors.blue
+                        : AppColors.red,
             unselectedItemColor: AppColors.white,
             currentIndex: controller.bottomNavigationBarIndex,
             onTap: (value) => controller.changeBottomNavigationBarIndex(value),
@@ -59,9 +68,11 @@ class CustomBottomNavigationBar extends StatelessWidget
                   child: SvgPicture.asset(
                     IconConstants.bnbItem2,
                     color: controller.bottomNavigationBarIndex == 1
-                        ? controller.pageViewIndex == 0
+                        ? controller.mapPageViewIndex == 0
                             ? AppColors.blue
-                            : AppColors.red
+                            : controller.mapPageViewIndex == 1
+                                ? AppColors.red
+                                : AppColors.cream
                         : AppColors.white,
                   ),
                 ),
@@ -73,9 +84,7 @@ class CustomBottomNavigationBar extends StatelessWidget
                   child: SvgPicture.asset(
                     IconConstants.bnbItem3,
                     color: controller.bottomNavigationBarIndex == 2
-                        ? controller.pageViewIndex == 0
-                            ? AppColors.blue
-                            : AppColors.red
+                        ? AppColors.blue
                         : AppColors.white,
                   ),
                 ),

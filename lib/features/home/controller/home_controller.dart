@@ -28,6 +28,9 @@ abstract class _HomeControllerBase with Store {
           }
         }
       }
+      inputShowedList.sort((a, b) => a.timeAdded.millisecondsSinceEpoch
+          .compareTo(b.timeAdded.millisecondsSinceEpoch));
+      inputShowedList = inputShowedList.reversed.toList().asObservable();
     } else if (pageViewIndex == 1) {
       if (filterApplied.contains('Todas')) {
         inputShowedList = inputAlertList;
@@ -41,6 +44,9 @@ abstract class _HomeControllerBase with Store {
           }
         }
       }
+      inputShowedList.sort((a, b) => a.timeAdded.millisecondsSinceEpoch
+          .compareTo(b.timeAdded.millisecondsSinceEpoch));
+      inputShowedList = inputShowedList.reversed.toList().asObservable();
     }
   }
 
@@ -85,6 +91,9 @@ abstract class _HomeControllerBase with Store {
     'Local',
     'Estacionamento',
   ].asObservable();
+
+  @observable
+  int mapPageViewIndex = 0;
 
   @observable
   int pageViewIndex = 0;
@@ -222,15 +231,21 @@ abstract class _HomeControllerBase with Store {
     final inputListFromFB = inputListQuerySnapshot.docs
         .map((e) => InputModel.fromMap(e.data()))
         .toList();
-        debugPrint('test');
+    debugPrint('test');
     inputAlertList = inputListFromFB
         .where((element) => element.category == 'alert')
         .toList()
         .asObservable();
+    inputAlertList.sort((a, b) => a.timeAdded.millisecondsSinceEpoch
+        .compareTo(b.timeAdded.millisecondsSinceEpoch));
+    inputAlertList = inputAlertList.reversed.toList().asObservable();
     inputRecomendationList = inputListFromFB
         .where((element) => element.category == 'recomendation')
         .toList()
         .asObservable();
+    inputRecomendationList.sort((a, b) => a.timeAdded.millisecondsSinceEpoch
+        .compareTo(b.timeAdded.millisecondsSinceEpoch));
+    inputRecomendationList = inputRecomendationList.reversed.toList().asObservable();
   }
 
   @action
@@ -241,6 +256,7 @@ abstract class _HomeControllerBase with Store {
     await collectionReference.doc().set(
       {
         "type": modalDropdownSelectedValue,
+        "timeAdded": Timestamp.now(),
         "address":
             '${currentStreet!}, ${currentSubLocality!}, ${currentSubAdministrativeArea!}',
         "description": newInputDescription,
