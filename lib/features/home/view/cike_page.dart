@@ -11,14 +11,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:latlong2/latlong.dart';
 
 class CikePage extends StatelessWidget {
-  CikePage({
+  const CikePage({
     super.key,
   });
 
-  final controller = Modular.get<HomeController>();
-
   @override
   Widget build(BuildContext context) {
+    final controller = Modular.get<HomeController>();
     return Observer(
       builder: (context) => controller.isLoading == true
           ? const Center(
@@ -73,7 +72,10 @@ class CikePage extends StatelessWidget {
                             Expanded(
                               flex: 33,
                               child: InkWell(
-                                onTap: () => controller.pageViewIndex = 0,
+                                onTap: () {
+                                  controller.pageViewIndex = 0;
+                                  controller.filterInputShowed();
+                                },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -109,7 +111,10 @@ class CikePage extends StatelessWidget {
                             Expanded(
                               flex: 15,
                               child: InkWell(
-                                onTap: () => controller.pageViewIndex = 1,
+                                onTap: () {
+                                  controller.pageViewIndex = 1;
+                                  controller.filterInputShowed();
+                                },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -155,7 +160,9 @@ class CikePage extends StatelessWidget {
                                     builder: (BuildContext context) {
                                       return HomeModal();
                                     },
-                                  );
+                                  ).then((value) {
+                                    controller.filterInputShowed();
+                                  });
                                 }),
                                 child: Container(
                                   width: 24,
@@ -201,28 +208,30 @@ class CikePage extends StatelessWidget {
                                     },
                                     InkWell(
                                       onTap: () {
-                                        if (controller.filterApplied.contains(
-                                            controller.filterList[index])) {
+                                        if (controller.filterApplied.length !=
+                                                1 &&
+                                            controller.filterApplied.contains(
+                                                controller.filterList[index])) {
                                           controller.filterApplied.remove(
                                               controller.filterList[index]);
-                                              controller.filterInputShowed();
+                                          controller.filterInputShowed();
                                         } else {
                                           if (controller.filterList[index] ==
                                               'Todas') {
                                             controller.filterApplied.clear();
                                             controller.filterApplied.add(
                                                 controller.filterList[index]);
-                                              controller.filterInputShowed();
+                                            controller.filterInputShowed();
                                           } else if (controller.filterApplied
                                               .contains('Todas')) {
                                             controller.filterApplied.clear();
                                             controller.filterApplied.add(
                                                 controller.filterList[index]);
-                                              controller.filterInputShowed();
+                                            controller.filterInputShowed();
                                           } else {
                                             controller.filterApplied.add(
                                                 controller.filterList[index]);
-                                              controller.filterInputShowed();
+                                            controller.filterInputShowed();
                                           }
                                         }
                                       },
@@ -232,7 +241,8 @@ class CikePage extends StatelessWidget {
                                             color: controller.filterApplied
                                                     .contains(controller
                                                         .filterList[index])
-                                                ? AppColors.white.withOpacity(0.2)
+                                                ? AppColors.white
+                                                    .withOpacity(0.2)
                                                 : Colors.transparent,
                                             borderRadius:
                                                 BorderRadius.circular(8),

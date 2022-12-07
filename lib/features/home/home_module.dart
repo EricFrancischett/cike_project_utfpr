@@ -7,6 +7,7 @@ class HomeModule extends Module {
   List<Bind> get binds => [
     Bind<HomeController>(
           (i) => HomeController(),
+          isSingleton: true
         ),
 
   ];

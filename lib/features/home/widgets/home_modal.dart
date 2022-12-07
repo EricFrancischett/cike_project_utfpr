@@ -1,11 +1,9 @@
 import 'dart:math';
 import 'package:cike_project_utfpr/features/home/controller/home_controller.dart';
 import 'package:cike_project_utfpr/general/app_colors.dart';
-import 'package:cike_project_utfpr/general/icon_constans.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeModal extends StatelessWidget {
   HomeModal({super.key});
@@ -54,8 +52,9 @@ class HomeModal extends StatelessWidget {
                   flex: 5,
                   child: Center(
                     child: Text(
-                      controller.pageViewIndex == 0?
-                      'Nova Recomendação' : 'Novo Alerta',
+                      controller.pageViewIndex == 0
+                          ? 'Nova Recomendação'
+                          : 'Novo Alerta',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -153,21 +152,19 @@ class HomeModal extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Observer(
-                  builder: (context) => Expanded(
-                    child: TextField(
-                      readOnly: true,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.dark,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: controller.currentStreet!,
-                        border: InputBorder.none,
-                      ),
-                      cursorColor: AppColors.dark,
-                      textAlign: TextAlign.left,
+                  builder: (context) => TextField(
+                    readOnly: true,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.dark,
                     ),
+                    decoration: InputDecoration(
+                      hintText: controller.currentStreet!,
+                      border: InputBorder.none,
+                    ),
+                    cursorColor: AppColors.dark,
+                    textAlign: TextAlign.left,
                   ),
                 ),
               ),
@@ -265,17 +262,21 @@ class HomeModal extends StatelessWidget {
                     ),
                   ),
                   backgroundColor: MaterialStateProperty.all(
-                    controller.pageViewIndex == 0? AppColors.blue : AppColors.red,
+                    controller.pageViewIndex == 0
+                        ? AppColors.blue
+                        : AppColors.red,
                   ),
                 ),
                 onPressed: () {
                   if (controller.newInputDescription != '') {
                     controller.addInput(controller.pageViewIndex);
+                    controller.filterInputShowed();
                   }
                 },
                 child: Text(
-                  controller.pageViewIndex == 0? 
-                  'Publicar Recomendação' : 'Publicar Alerta',
+                  controller.pageViewIndex == 0
+                      ? 'Publicar Recomendação'
+                      : 'Publicar Alerta',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,

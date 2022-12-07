@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cike_project_utfpr/features/home/model/input_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -15,28 +17,28 @@ abstract class _HomeControllerBase with Store {
   void filterInputShowed() {
     if (pageViewIndex == 0) {
       if (filterApplied.contains('Todas')) {
-        debugPrint(inputRecomendationList.toString());
-        inputShowedList.clear();
         inputShowedList = inputRecomendationList;
       } else {
-        inputShowedList.clear();
+        inputShowedList = <InputModel>[].asObservable();
         for (var filter in filterApplied) {
-          debugPrint(inputRecomendationList.toString());
-          inputShowedList.addAll(
-            inputRecomendationList.where((element) => element.type == filter),
-          );
+          for (var input in inputRecomendationList) {
+            if (!inputShowedList.contains(input) && input.type == filter) {
+              inputShowedList.add(input);
+            }
+          }
         }
       }
-    } else {
+    } else if (pageViewIndex == 1) {
       if (filterApplied.contains('Todas')) {
-        inputShowedList.clear();
         inputShowedList = inputAlertList;
       } else {
-        inputShowedList.clear();
+        inputShowedList = <InputModel>[].asObservable();
         for (var filter in filterApplied) {
-          inputShowedList.addAll(
-            inputAlertList.where((element) => element.type == filter),
-          );
+          for (var input in inputAlertList) {
+            if (!inputShowedList.contains(input) && input.type == filter) {
+              inputShowedList.add(input);
+            }
+          }
         }
       }
     }
@@ -220,6 +222,7 @@ abstract class _HomeControllerBase with Store {
     final inputListFromFB = inputListQuerySnapshot.docs
         .map((e) => InputModel.fromMap(e.data()))
         .toList();
+        debugPrint('test');
     inputAlertList = inputListFromFB
         .where((element) => element.category == 'alert')
         .toList()
@@ -232,6 +235,8 @@ abstract class _HomeControllerBase with Store {
 
   @action
   Future addInput(int currentPageViewIndex) async {
+    var rng = Random();
+    var randomNumberToId = rng.nextInt(10000).toString();
     final collectionReference = FirebaseFirestore.instance.collection('inputs');
     await collectionReference.doc().set(
       {
@@ -239,6 +244,7 @@ abstract class _HomeControllerBase with Store {
         "address":
             '${currentStreet!}, ${currentSubLocality!}, ${currentSubAdministrativeArea!}',
         "description": newInputDescription,
+        "id": randomNumberToId,
         "category": currentPageViewIndex == 0 ? 'recomendation' : 'alert',
         "lat": currentPosition!.latitude,
         "lgn": currentPosition!.longitude,

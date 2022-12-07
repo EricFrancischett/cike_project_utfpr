@@ -1,10 +1,13 @@
-class InputModel{
+import 'package:equatable/equatable.dart';
+
+class InputModel extends Equatable{
   String type;
   String address;
   String description;
   double lat;
   double lgn;
   String category;
+  String id;
 
   InputModel({
     required this.address,
@@ -13,6 +16,7 @@ class InputModel{
     required this.category,
     required this.lat,
     required this.lgn,
+    required this.id,
   });
 
   factory InputModel.fromMap(Map<String, dynamic> map) {
@@ -23,6 +27,7 @@ class InputModel{
       lat: map['lat'],
       lgn: map['lgn'],
       description: map['description'],
+      id: map['id'],
     );
   }
 
@@ -34,6 +39,11 @@ class InputModel{
       'lat': user.lat,
       'lgn': user.lgn,
       'description': user.description,
+      'id': user.id,
     };
   }
+  
+  @override
+  List<Object?> get props => [id];
+
 }
