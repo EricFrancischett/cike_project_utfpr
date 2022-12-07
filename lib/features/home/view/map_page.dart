@@ -20,8 +20,6 @@ class MapPage extends StatelessWidget {
             child: FlutterMap(
               options: MapOptions(
                   onTap: (tapPosition, point) {
-                    debugPrint(point.latitude.toString());
-                    debugPrint(point.longitude.toString());
                   },
                   center: LatLng(
                     // controller.currentPosition!.latitude,
@@ -50,10 +48,8 @@ class MapPage extends StatelessWidget {
                         -49.329030,
                       ),
                       builder: (context) {
-                        debugPrint('buildou');
                         return InkWell(
                           onTap: () {
-                            debugPrint("teste");
                           },
                           child: SvgPicture.asset(
                             IconConstants.locationMapIcon,

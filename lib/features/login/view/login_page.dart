@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
     // controller.checkIfUserIsLoggedIn();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,12 +45,16 @@ class _LoginPageState extends State<LoginPage> {
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      colorFilter: ColorFilter.mode(
-                        const Color(0xFF2E282A).withOpacity(0.45).withBlue(255).withGreen(255),
-                        BlendMode.multiply,
-                      ),
-                      fit: BoxFit.cover,
-                      image: const AssetImage('assets/login_background.png')),
+                    colorFilter: ColorFilter.mode(
+                      const Color(0xFF2E282A)
+                          .withOpacity(0.45)
+                          .withBlue(255)
+                          .withGreen(255),
+                      BlendMode.multiply,
+                    ),
+                    fit: BoxFit.cover,
+                    image: const AssetImage('assets/login_background.png'),
+                  ),
                 ),
                 child: Padding(
                   padding:
@@ -90,11 +95,10 @@ class _LoginPageState extends State<LoginPage> {
                                   backgroundColor: MaterialStateProperty.all(
                                     AppColors.white,
                                   ),
-                                  overlayColor: MaterialStateProperty.all(
-                                    AppColors.red,
-                                  ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Modular.to.pushReplacementNamed('/home/');
+                                },
                                 child: const Text(
                                   'Continue como convidado',
                                   style: TextStyle(
@@ -119,9 +123,6 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   backgroundColor: MaterialStateProperty.all(
                                     AppColors.white,
-                                  ),
-                                  overlayColor: MaterialStateProperty.all(
-                                    AppColors.red,
                                   ),
                                 ),
                                 onPressed: () {},
@@ -171,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
