@@ -1,15 +1,23 @@
-import 'dart:math';
-
 import 'package:cike_project_utfpr/features/home/model/input_model.dart';
 import 'package:cike_project_utfpr/features/topic/controller/topic_controller.dart';
 import 'package:cike_project_utfpr/general/app_colors.dart';
+import 'package:cike_project_utfpr/general/icon_constans.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:latlong2/latlong.dart';
 
 class TopicPage extends StatelessWidget {
-  TopicPage({super.key, required this.title, required this.selectedInput});
+  TopicPage({
+    super.key,
+    required this.title,
+    required this.selectedInput,
+    required this.currentPosition,
+  });
 
   final String title;
+  final LatLng currentPosition;
   final InputModel selectedInput;
   final controller = Modular.get<TopicController>();
 
@@ -75,10 +83,12 @@ class TopicPage extends StatelessWidget {
               ),
             ),
             Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: AppColors.blue,
+                    color: selectedInput.category == 'recomendation'
+                        ? AppColors.blue
+                        : AppColors.red,
                   ),
                 ),
               ),
@@ -92,15 +102,19 @@ class TopicPage extends StatelessWidget {
                   children: [
                     Text(
                       selectedInput.type,
-                      style: const TextStyle(
-                        color: AppColors.blue,
+                      style: TextStyle(
+                        color: selectedInput.category == 'recomendation'
+                            ? AppColors.blue
+                            : AppColors.red,
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const Icon(
+                    Icon(
                       Icons.verified,
-                      color: AppColors.blue,
+                      color: selectedInput.category == 'recomendation'
+                          ? AppColors.blue
+                          : AppColors.red,
                     ),
                   ],
                 ),
@@ -133,8 +147,61 @@ class TopicPage extends StatelessWidget {
                   const SizedBox(
                     height: 8,
                   ),
-
-                  ///Implement Map
+                  SizedBox(
+                    height: 224,
+                    child: FlutterMap(
+                      options: MapOptions(
+                          onTap: (tapPosition, point) {},
+                          center: currentPosition,
+                          zoom: 11,
+                          maxZoom: 18),
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                              "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png",
+                          userAgentPackageName:
+                              'com.example.cike_project_utfpr',
+                          subdomains: const ['a', 'b', 'c'],
+                          errorImage: const NetworkImage(
+                              'https://tile.openstreetmap.org/18/0/0.png'),
+                        ),
+                        MarkerLayer(
+                          markers: [
+                            Marker(
+                              point: currentPosition,
+                              builder: (context) {
+                                return InkWell(
+                                  onTap: () {},
+                                  child: SvgPicture.asset(
+                                    IconConstants.locationMapIcon,
+                                    color: AppColors.white,
+                                  ),
+                                );
+                              },
+                            ),
+                            Marker(
+                              point: LatLng(
+                                selectedInput.lat,
+                                selectedInput.lgn,
+                              ),
+                              builder: (context) {
+                                return InkWell(
+                                  onTap: () {},
+                                  child: SvgPicture.asset(
+                                    IconConstants.locationMapIcon,
+                                    color: selectedInput.category ==
+                                            'recomendation'
+                                        ? AppColors.blue
+                                        : AppColors.red,
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

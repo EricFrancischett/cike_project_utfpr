@@ -17,6 +17,7 @@ class TopicModule extends Module {
           '/',
           child: (context, args) => TopicPage(
             title: args.data['title'],
+            currentPosition:  args.data['currentPosition'],
             selectedInput: args.data['selectedInput'],
           ),
         ),

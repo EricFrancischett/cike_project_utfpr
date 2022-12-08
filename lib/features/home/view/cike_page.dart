@@ -362,7 +362,26 @@ class CikePage extends StatelessWidget {
                                                       element.lat, element.lgn),
                                                   builder: (context) {
                                                     return InkWell(
-                                                      onTap: () {},
+                                                      onTap: () {
+                                                        Modular.to.pushNamed(
+                                                          '/topic/',
+                                                          arguments: {
+                                                            'title':
+                                                                '${controller.currentStreet!}, ${controller.currentSubLocality!}, ${controller.currentSubAdministrativeArea!}',
+                                                            'selectedInput':
+                                                                element,
+                                                            'currentPosition':
+                                                                LatLng(
+                                                              controller
+                                                                  .currentPosition!
+                                                                  .latitude,
+                                                              controller
+                                                                  .currentPosition!
+                                                                  .longitude,
+                                                            )
+                                                          },
+                                                        );
+                                                      },
                                                       child: SvgPicture.asset(
                                                         IconConstants
                                                             .locationMapIcon,
@@ -384,7 +403,26 @@ class CikePage extends StatelessWidget {
                                                       element.lat, element.lgn),
                                                   builder: (context) {
                                                     return InkWell(
-                                                      onTap: () {},
+                                                      onTap: () {
+                                                        Modular.to.pushNamed(
+                                                          '/topic/',
+                                                          arguments: {
+                                                            'title':
+                                                                '${controller.currentStreet!}, ${controller.currentSubLocality!}, ${controller.currentSubAdministrativeArea!}',
+                                                            'selectedInput':
+                                                                element,
+                                                            'currentPosition':
+                                                                LatLng(
+                                                              controller
+                                                                  .currentPosition!
+                                                                  .latitude,
+                                                              controller
+                                                                  .currentPosition!
+                                                                  .longitude,
+                                                            )
+                                                          },
+                                                        );
+                                                      },
                                                       child: SvgPicture.asset(
                                                         IconConstants
                                                             .locationMapIcon,
@@ -418,10 +456,19 @@ class CikePage extends StatelessWidget {
                           pageViewIndex: controller.pageViewIndex,
                           input: controller.inputShowedList[index],
                           onTap: () {
-                            Modular.to.pushNamed('/topic/', arguments: {
-                              'title': '${controller.currentStreet!}, ${controller.currentSubLocality!}, ${controller.currentSubAdministrativeArea!}',
-                              'selectedInput': controller.inputShowedList[index],
-                            });
+                            Modular.to.pushNamed(
+                              '/topic/',
+                              arguments: {
+                                'title':
+                                    '${controller.currentStreet!}, ${controller.currentSubLocality!}, ${controller.currentSubAdministrativeArea!}',
+                                'selectedInput':
+                                    controller.inputShowedList[index],
+                                'currentPosition': LatLng(
+                                  controller.currentPosition!.latitude,
+                                  controller.currentPosition!.longitude,
+                                )
+                              },
+                            );
                           },
                         ),
                       ),

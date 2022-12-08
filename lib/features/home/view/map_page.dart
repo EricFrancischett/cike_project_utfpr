@@ -274,7 +274,22 @@ class MapPage extends StatelessWidget {
                                 point: LatLng(element.lat, element.lgn),
                                 builder: (context) {
                                   return InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Modular.to.pushNamed(
+                                        '/topic/',
+                                        arguments: {
+                                          'title':
+                                              '${controller.currentStreet!}, ${controller.currentSubLocality!}, ${controller.currentSubAdministrativeArea!}',
+                                          'selectedInput': element,
+                                          'currentPosition': LatLng(
+                                            controller
+                                                .currentPosition!.latitude,
+                                            controller
+                                                .currentPosition!.longitude,
+                                          )
+                                        },
+                                      );
+                                    },
                                     child: SvgPicture.asset(
                                       IconConstants.locationMapIcon,
                                       color: AppColors.blue,
@@ -293,7 +308,22 @@ class MapPage extends StatelessWidget {
                                 point: LatLng(element.lat, element.lgn),
                                 builder: (context) {
                                   return InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Modular.to.pushNamed(
+                                        '/topic/',
+                                        arguments: {
+                                          'title':
+                                              '${controller.currentStreet!}, ${controller.currentSubLocality!}, ${controller.currentSubAdministrativeArea!}',
+                                          'selectedInput': element,
+                                          'currentPosition': LatLng(
+                                            controller
+                                                .currentPosition!.latitude,
+                                            controller
+                                                .currentPosition!.longitude,
+                                          )
+                                        },
+                                      );
+                                    },
                                     child: SvgPicture.asset(
                                       IconConstants.locationMapIcon,
                                       color: AppColors.red,

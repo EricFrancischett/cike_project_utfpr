@@ -251,9 +251,9 @@ abstract class _HomeControllerBase with Store {
   @action
   Future addInput(int currentPageViewIndex) async {
     var rng = Random();
-    var randomNumberToId = rng.nextInt(10000).toString();
+    var randomNumberToId = rng.nextInt(1000000000).toString();
     final collectionReference = FirebaseFirestore.instance.collection('inputs');
-    await collectionReference.doc().set(
+    await collectionReference.doc(randomNumberToId).set(
       {
         "type": modalDropdownSelectedValue,
         "timeAdded": Timestamp.now(),
