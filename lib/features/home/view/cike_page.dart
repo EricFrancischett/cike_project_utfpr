@@ -417,6 +417,12 @@ class CikePage extends StatelessWidget {
                         itemBuilder: (context, index) => InputCard(
                           pageViewIndex: controller.pageViewIndex,
                           input: controller.inputShowedList[index],
+                          onTap: () {
+                            Modular.to.pushNamed('/topic/', arguments: {
+                              'title': '${controller.currentStreet!}, ${controller.currentSubLocality!}, ${controller.currentSubAdministrativeArea!}',
+                              'selectedInput': controller.inputShowedList[index],
+                            });
+                          },
                         ),
                       ),
                     ],
