@@ -1,5 +1,6 @@
 import 'package:cike_project_utfpr/features/home/home_module.dart';
 import 'package:cike_project_utfpr/features/login/login_module.dart';
+import 'package:cike_project_utfpr/features/splash/splash_module.dart';
 import 'package:cike_project_utfpr/features/topic/topic_module.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -11,7 +12,7 @@ class AppModule extends Module {
   List<ModularRoute> get routes => [
         ModuleRoute(
           Modular.initialRoute,
-          module: LoginModule(),
+          module: SplashModule(),
         ),
         ModuleRoute(
           '/home',
@@ -20,6 +21,10 @@ class AppModule extends Module {
         ModuleRoute(
           '/topic',
           module: TopicModule(),
+        ),
+        ModuleRoute(
+          '/login',
+          module: LoginModule(),
         ),
       ];
 }

@@ -16,7 +16,6 @@ class _LoginPageState extends State<LoginPage> {
   final controller = Modular.get<LoginController>();
   @override
   void initState() {
-    // controller.checkIfUserIsLoggedIn();
     super.initState();
   }
 
@@ -96,7 +95,8 @@ class _LoginPageState extends State<LoginPage> {
                                     AppColors.white,
                                   ),
                                 ),
-                                onPressed: () {
+                                onPressed: () async {
+                                  await controller.signInAnonymously();
                                   Modular.to.pushReplacementNamed('/home/');
                                 },
                                 child: const Text(
