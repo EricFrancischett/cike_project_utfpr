@@ -42,22 +42,6 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
-  late final _$newInputAddressAtom =
-      Atom(name: '_HomeControllerBase.newInputAddress', context: context);
-
-  @override
-  String get newInputAddress {
-    _$newInputAddressAtom.reportRead();
-    return super.newInputAddress;
-  }
-
-  @override
-  set newInputAddress(String value) {
-    _$newInputAddressAtom.reportWrite(value, super.newInputAddress, () {
-      super.newInputAddress = value;
-    });
-  }
-
   late final _$isLoadingAtom =
       Atom(name: '_HomeControllerBase.isLoading', context: context);
 
@@ -74,19 +58,52 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
-  late final _$inputListAtom =
-      Atom(name: '_HomeControllerBase.inputList', context: context);
+  late final _$inputRecomendationListAtom = Atom(
+      name: '_HomeControllerBase.inputRecomendationList', context: context);
 
   @override
-  ObservableList<InputModel> get inputList {
-    _$inputListAtom.reportRead();
-    return super.inputList;
+  ObservableList<InputModel> get inputRecomendationList {
+    _$inputRecomendationListAtom.reportRead();
+    return super.inputRecomendationList;
   }
 
   @override
-  set inputList(ObservableList<InputModel> value) {
-    _$inputListAtom.reportWrite(value, super.inputList, () {
-      super.inputList = value;
+  set inputRecomendationList(ObservableList<InputModel> value) {
+    _$inputRecomendationListAtom
+        .reportWrite(value, super.inputRecomendationList, () {
+      super.inputRecomendationList = value;
+    });
+  }
+
+  late final _$inputAlertListAtom =
+      Atom(name: '_HomeControllerBase.inputAlertList', context: context);
+
+  @override
+  ObservableList<InputModel> get inputAlertList {
+    _$inputAlertListAtom.reportRead();
+    return super.inputAlertList;
+  }
+
+  @override
+  set inputAlertList(ObservableList<InputModel> value) {
+    _$inputAlertListAtom.reportWrite(value, super.inputAlertList, () {
+      super.inputAlertList = value;
+    });
+  }
+
+  late final _$inputShowedListAtom =
+      Atom(name: '_HomeControllerBase.inputShowedList', context: context);
+
+  @override
+  ObservableList<InputModel> get inputShowedList {
+    _$inputShowedListAtom.reportRead();
+    return super.inputShowedList;
+  }
+
+  @override
+  set inputShowedList(ObservableList<InputModel> value) {
+    _$inputShowedListAtom.reportWrite(value, super.inputShowedList, () {
+      super.inputShowedList = value;
     });
   }
 
@@ -123,6 +140,22 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  late final _$filterAppliedAtom =
+      Atom(name: '_HomeControllerBase.filterApplied', context: context);
+
+  @override
+  ObservableList<String> get filterApplied {
+    _$filterAppliedAtom.reportRead();
+    return super.filterApplied;
+  }
+
+  @override
+  set filterApplied(ObservableList<String> value) {
+    _$filterAppliedAtom.reportWrite(value, super.filterApplied, () {
+      super.filterApplied = value;
+    });
+  }
+
   late final _$filterListAtom =
       Atom(name: '_HomeControllerBase.filterList', context: context);
 
@@ -136,6 +169,22 @@ mixin _$HomeController on _HomeControllerBase, Store {
   set filterList(ObservableList<String> value) {
     _$filterListAtom.reportWrite(value, super.filterList, () {
       super.filterList = value;
+    });
+  }
+
+  late final _$mapPageViewIndexAtom =
+      Atom(name: '_HomeControllerBase.mapPageViewIndex', context: context);
+
+  @override
+  int get mapPageViewIndex {
+    _$mapPageViewIndexAtom.reportRead();
+    return super.mapPageViewIndex;
+  }
+
+  @override
+  set mapPageViewIndex(int value) {
+    _$mapPageViewIndexAtom.reportWrite(value, super.mapPageViewIndex, () {
+      super.mapPageViewIndex = value;
     });
   }
 
@@ -342,12 +391,24 @@ mixin _$HomeController on _HomeControllerBase, Store {
       AsyncAction('_HomeControllerBase.addInput', context: context);
 
   @override
-  Future<dynamic> addInput() {
-    return _$addInputAsyncAction.run(() => super.addInput());
+  Future<dynamic> addInput(int currentPageViewIndex) {
+    return _$addInputAsyncAction
+        .run(() => super.addInput(currentPageViewIndex));
   }
 
   late final _$_HomeControllerBaseActionController =
       ActionController(name: '_HomeControllerBase', context: context);
+
+  @override
+  void filterInputShowed() {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.filterInputShowed');
+    try {
+      return super.filterInputShowed();
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void changeBottomNavigationBarIndex(int newIndex) {
@@ -376,12 +437,15 @@ mixin _$HomeController on _HomeControllerBase, Store {
     return '''
 addressFromStreetGiven: ${addressFromStreetGiven},
 newInputDescription: ${newInputDescription},
-newInputAddress: ${newInputAddress},
 isLoading: ${isLoading},
-inputList: ${inputList},
+inputRecomendationList: ${inputRecomendationList},
+inputAlertList: ${inputAlertList},
+inputShowedList: ${inputShowedList},
 modalDropdownSelectedValue: ${modalDropdownSelectedValue},
 dropdownItensList: ${dropdownItensList},
+filterApplied: ${filterApplied},
 filterList: ${filterList},
+mapPageViewIndex: ${mapPageViewIndex},
 pageViewIndex: ${pageViewIndex},
 bottomNavigationBarIndex: ${bottomNavigationBarIndex},
 placemarks: ${placemarks},

@@ -1,11 +1,9 @@
 import 'dart:math';
 import 'package:cike_project_utfpr/features/home/controller/home_controller.dart';
 import 'package:cike_project_utfpr/general/app_colors.dart';
-import 'package:cike_project_utfpr/general/icon_constans.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeModal extends StatelessWidget {
   HomeModal({super.key});
@@ -50,14 +48,18 @@ class HomeModal extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   flex: 5,
-                  child: Text(
-                    'Nova Recomendação',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.white,
+                  child: Center(
+                    child: Text(
+                      controller.pageViewIndex == 0
+                          ? 'Nova Recomendação'
+                          : 'Novo Alerta',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -150,41 +152,19 @@ class HomeModal extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Observer(
-                  builder: (context) => Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          onChanged: (value) {
-                            controller.newInputAddress = value;
-                            controller.addressListFromStreetGiven(value);
-                            debugPrint(controller.newInputAddress);
-                            debugPrint(controller.addressFromStreetGiven);
-                          },
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.dark,
-                          ),
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                          cursorColor: AppColors.dark,
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      controller.addressFromStreetGiven ==
-                              controller.newInputAddress
-                          ? const Icon(
-                              Icons.check_circle_outline_rounded,
-                              color: AppColors.dark,
-                            )
-                          : SvgPicture.asset(
-                              IconConstants.searchIcon,
-                            ),
-                    ],
+                  builder: (context) => TextField(
+                    readOnly: true,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.dark,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: controller.currentStreet!,
+                      border: InputBorder.none,
+                    ),
+                    cursorColor: AppColors.dark,
+                    textAlign: TextAlign.left,
                   ),
                 ),
               ),
@@ -282,20 +262,22 @@ class HomeModal extends StatelessWidget {
                     ),
                   ),
                   backgroundColor: MaterialStateProperty.all(
-                    AppColors.blue,
+                    controller.pageViewIndex == 0
+                        ? AppColors.blue
+                        : AppColors.red,
                   ),
                 ),
                 onPressed: () {
-                  if (controller.newInputAddress != '' &&
-                      controller.newInputDescription != '') {
-                    controller.addInput();
-                  } else {
-                    debugPrint('Deu merda em colocar novo input');
+                  if (controller.newInputDescription != '') {
+                    controller.addInput(controller.pageViewIndex);
+                    controller.filterInputShowed();
                   }
                 },
-                child: const Text(
-                  'Publicar Recomendação',
-                  style: TextStyle(
+                child: Text(
+                  controller.pageViewIndex == 0
+                      ? 'Publicar Recomendação'
+                      : 'Publicar Alerta',
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: AppColors.white,

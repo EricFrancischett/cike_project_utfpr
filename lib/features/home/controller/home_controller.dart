@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:cike_project_utfpr/features/home/model/input_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mobx/mobx.dart';
@@ -10,6 +13,43 @@ part 'home_controller.g.dart';
 class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
+  @action
+  void filterInputShowed() {
+    if (pageViewIndex == 0) {
+      if (filterApplied.contains('Todas')) {
+        inputShowedList = inputRecomendationList;
+      } else {
+        inputShowedList = <InputModel>[].asObservable();
+        for (var filter in filterApplied) {
+          for (var input in inputRecomendationList) {
+            if (!inputShowedList.contains(input) && input.type == filter) {
+              inputShowedList.add(input);
+            }
+          }
+        }
+      }
+      inputShowedList.sort((a, b) => a.timeAdded.millisecondsSinceEpoch
+          .compareTo(b.timeAdded.millisecondsSinceEpoch));
+      inputShowedList = inputShowedList.reversed.toList().asObservable();
+    } else if (pageViewIndex == 1) {
+      if (filterApplied.contains('Todas')) {
+        inputShowedList = inputAlertList;
+      } else {
+        inputShowedList = <InputModel>[].asObservable();
+        for (var filter in filterApplied) {
+          for (var input in inputAlertList) {
+            if (!inputShowedList.contains(input) && input.type == filter) {
+              inputShowedList.add(input);
+            }
+          }
+        }
+      }
+      inputShowedList.sort((a, b) => a.timeAdded.millisecondsSinceEpoch
+          .compareTo(b.timeAdded.millisecondsSinceEpoch));
+      inputShowedList = inputShowedList.reversed.toList().asObservable();
+    }
+  }
+
   @observable
   String addressFromStreetGiven = '';
 
@@ -17,13 +57,17 @@ abstract class _HomeControllerBase with Store {
   String newInputDescription = '';
 
   @observable
-  String newInputAddress = '';
-
-  @observable
   bool isLoading = false;
 
   @observable
-  ObservableList<InputModel> inputList = <InputModel>[].asObservable();
+  ObservableList<InputModel> inputRecomendationList =
+      <InputModel>[].asObservable();
+
+  @observable
+  ObservableList<InputModel> inputAlertList = <InputModel>[].asObservable();
+
+  @observable
+  ObservableList<InputModel> inputShowedList = <InputModel>[].asObservable();
 
   @observable
   String modalDropdownSelectedValue = 'Ciclovia';
@@ -33,17 +77,23 @@ abstract class _HomeControllerBase with Store {
     'Ciclovia',
     'Local',
     'Estacionamento',
-    'Prática em Grupo',
+  ].asObservable();
+
+  @observable
+  ObservableList<String> filterApplied = <String>[
+    'Todas',
   ].asObservable();
 
   @observable
   ObservableList<String> filterList = <String>[
     'Todas',
-    'Ciclovias',
-    'Locais',
-    'Estacionamentos',
-    'Prática em Grupo',
+    'Ciclovia',
+    'Local',
+    'Estacionamento',
   ].asObservable();
+
+  @observable
+  int mapPageViewIndex = 0;
 
   @observable
   int pageViewIndex = 0;
@@ -103,9 +153,12 @@ abstract class _HomeControllerBase with Store {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
           content: Text(
-              'Location services are disabled. Please enable the services')));
+              'Location services are disabled. Please enable the services'),
+        ),
+      );
       return false;
     }
     permission = await Geolocator.checkPermission();
@@ -114,7 +167,10 @@ abstract class _HomeControllerBase with Store {
       if (permission == LocationPermission.denied) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Location permissions are denied')));
+          const SnackBar(
+            content: Text('Location permissions are denied'),
+          ),
+        );
         return false;
       }
     }
@@ -132,11 +188,20 @@ abstract class _HomeControllerBase with Store {
   Future<void> getCurrentPosition(BuildContext context) async {
     isLoading = true;
     final hasPermission = await handleLocationPermission(context);
-    debugPrint(hasPermission.toString());
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
-      currentPosition = position;
+      // currentPosition = position;
+      currentPosition = Position(
+        longitude: -49.329030,
+        latitude: -25.488350,
+        timestamp: DateTime.now(),
+        accuracy: 0,
+        altitude: 0,
+        heading: 0,
+        speed: 0,
+        speedAccuracy: 0,
+      );
       getAddressFromLatLng(currentPosition!);
       isLoading = false;
     }).catchError((e) {
@@ -166,24 +231,43 @@ abstract class _HomeControllerBase with Store {
     final inputListFromFB = inputListQuerySnapshot.docs
         .map((e) => InputModel.fromMap(e.data()))
         .toList();
-    inputList = inputListFromFB.asObservable();
+    debugPrint('test');
+    inputAlertList = inputListFromFB
+        .where((element) => element.category == 'alert')
+        .toList()
+        .asObservable();
+    inputAlertList.sort((a, b) => a.timeAdded.millisecondsSinceEpoch
+        .compareTo(b.timeAdded.millisecondsSinceEpoch));
+    inputAlertList = inputAlertList.reversed.toList().asObservable();
+    inputRecomendationList = inputListFromFB
+        .where((element) => element.category == 'recomendation')
+        .toList()
+        .asObservable();
+    inputRecomendationList.sort((a, b) => a.timeAdded.millisecondsSinceEpoch
+        .compareTo(b.timeAdded.millisecondsSinceEpoch));
+    inputRecomendationList = inputRecomendationList.reversed.toList().asObservable();
   }
 
   @action
-  Future addInput() async {
-    final locations = await locationFromAddress(newInputAddress);
-    final firstLocation = locations.first;
+  Future addInput(int currentPageViewIndex) async {
+    var rng = Random();
+    var randomNumberToId = rng.nextInt(1000000000).toString();
     final collectionReference = FirebaseFirestore.instance.collection('inputs');
-    await collectionReference.doc().set(
+    await collectionReference.doc(randomNumberToId).set(
       {
         "type": modalDropdownSelectedValue,
-        "address": newInputAddress,
+        "timeAdded": Timestamp.now(),
+        "address":
+            '${currentStreet!}, ${currentSubLocality!}, ${currentSubAdministrativeArea!}',
         "description": newInputDescription,
-        "id": '',
-        "lat": firstLocation.latitude,
-        "lgn": firstLocation.longitude,
+        "id": randomNumberToId,
+        "category": currentPageViewIndex == 0 ? 'recomendation' : 'alert',
+        "lat": currentPosition!.latitude,
+        "lgn": currentPosition!.longitude,
       },
     );
+    Modular.to.pop();
+    getInputs();
   }
 
   Future<void> addressListFromStreetGiven(String street) async {
@@ -191,13 +275,13 @@ abstract class _HomeControllerBase with Store {
       final locationList =
           await locationFromAddress('$street, Curitiba, Paraná, Brazil');
       for (var element in locationList) {
-          final placemarkList = await placemarkFromCoordinates(
-              element.latitude, element.longitude);
-          final List<String> streetList = placemarkList.map((e) {
-            return e.street!;
-          }).toList();
-          addressFromStreetGiven = streetList.first;
-        }
+        final placemarkList =
+            await placemarkFromCoordinates(element.latitude, element.longitude);
+        final List<String> streetList = placemarkList.map((e) {
+          return e.street!;
+        }).toList();
+        addressFromStreetGiven = streetList.first;
+      }
     } catch (e) {
       debugPrint(e.toString());
     }

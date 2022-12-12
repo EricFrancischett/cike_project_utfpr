@@ -28,14 +28,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> cikePageSetup() async {
-    controller.getCurrentPosition(context);
-    controller.getInputs();
+    await controller.getCurrentPosition(context);
+    await controller.getInputs();
+    controller.filterInputShowed();
   }
 
   @override
   Widget build(BuildContext context) {
     final pages = [
-      CikePage(),
+      const CikePage(),
       const MapPage(),
       const ProfilePage(),
     ];

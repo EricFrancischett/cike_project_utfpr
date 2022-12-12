@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
 part 'login_controller.g.dart';
 
@@ -7,22 +6,12 @@ part 'login_controller.g.dart';
 class LoginController = _LoginControllerBase with _$LoginController;
 
 abstract class _LoginControllerBase with Store {
+  @action
+  Future<void> signInAnonymously() async {
+    await FirebaseAuth.instance.signInAnonymously();
+  }
 
-  // @action
-  // void checkIfUserIsLoggedIn() {
-    // FirebaseAuth.instance.userChanges().listen((User? user) async {
-    //   if (user == null) {
-    //     await signInWithGoogle();
-    //     await Modular.to.pushNamed('/home');
-    //     debugPrint('LOGOU E FOI PRA HOME');
-    //   } else {
-    //     await Modular.to.pushNamed('/home');
-    //     debugPrint('JA TAVA LOGADO E FOI PRA HOME');
-    //   }
-    // });
-  // }
-
-  // @action
+//   @action
 //   Future<UserCredential> signInWithGoogle() async {
 //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 //   final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
