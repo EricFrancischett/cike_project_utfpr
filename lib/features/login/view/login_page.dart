@@ -125,7 +125,10 @@ class _LoginPageState extends State<LoginPage> {
                                     AppColors.white,
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  // await controller.signInWithGoogle();
+                                  Modular.to.pushReplacementNamed('/home/');
+                                },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
